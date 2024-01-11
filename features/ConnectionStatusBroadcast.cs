@@ -16,5 +16,10 @@ namespace parkus.features
         {
             Server.SendBroadcast($"{ev.Player.Nickname} joined the server.", 10, Broadcast.BroadcastFlags.Normal, true);
         }
+        [PluginEvent]
+        public void OnPlayerLeft(PlayerLeftEvent ev)
+        {
+            Server.SendBroadcast($"{ev.Player.Nickname} left the server.", 10, Broadcast.BroadcastFlags.Normal, true);
+        }
     }
 }
