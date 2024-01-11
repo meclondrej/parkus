@@ -1,4 +1,5 @@
 using PluginAPI.Core.Attributes;
+using parkus.features;
 
 namespace parkus
 {
@@ -15,6 +16,7 @@ namespace parkus
         void LoadPlugin()
         {
             Singleton = this;
+            PluginAPI.Events.EventManager.RegisterEvents<JoinBroadcast>(this);
         }
     }
 }
