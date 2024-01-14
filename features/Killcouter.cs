@@ -28,6 +28,7 @@ namespace parkus
             if (!entries.ContainsKey(ev.Attacker.UserId))
                 return;
             entries[ev.Attacker.UserId]++;
+            entries[ev.Player.UserId] = 0;
         }
     }
 }
