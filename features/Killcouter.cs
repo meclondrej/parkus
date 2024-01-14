@@ -28,6 +28,8 @@ namespace parkus
             if (!entries.ContainsKey(ev.Attacker.UserId))
                 return;
             entries[ev.Attacker.UserId]++;
+            ev.Attacker.SendBroadcast("+1 Kill", 3);
+            ev.Player.SendBroadcast($"Killy: {entries[ev.Player.UserId].ToString()}", 10);
             entries[ev.Player.UserId] = 0;
         }
     }
