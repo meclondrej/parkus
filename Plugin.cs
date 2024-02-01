@@ -16,7 +16,7 @@ namespace parkus
         void LoadPlugin()
         {
             Singleton = this;
-            PluginAPI.Events.EventManager.RegisterEvents<JoinBroadcast>(this);
+            PluginAPI.Events.EventManager.RegisterEvents<ConnectionStatusBroadcast>(this);
         }
     }
 }

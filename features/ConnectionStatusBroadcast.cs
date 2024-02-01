@@ -4,7 +4,7 @@ using PluginAPI.Events;
 
 namespace parkus.features
 {
-    public class JoinBroadcast
+    public class ConnectionStatusBroadcast
     {
         [PluginEvent]
         public void OnPlayerPreauth(PlayerPreauthEvent ev)
