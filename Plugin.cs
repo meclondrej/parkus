@@ -17,6 +17,7 @@ namespace parkus
         {
             Singleton = this;
             PluginAPI.Events.EventManager.RegisterEvents<ConnectionStatusBroadcast>(this);
+            PluginAPI.Events.EventManager.RegisterEvents<Killcounter>(this);
         }
     }
 }
