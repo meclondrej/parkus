@@ -14,6 +14,7 @@ namespace parkus
             entries.Add(ev.Player.UserId, 0);
         }
 
+        [PluginEvent]
         public void OnPlayerLeft(PlayerLeftEvent ev)
         {
             if (entries.ContainsKey(ev.Player.UserId))
