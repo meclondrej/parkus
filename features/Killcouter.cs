@@ -17,6 +17,8 @@ namespace parkus
         [PluginEvent]
         public void OnPlayerLeft(PlayerLeftEvent ev)
         {
+            if (ev.Player.UserId == null)
+                return;
             if (entries.ContainsKey(ev.Player.UserId))
                 entries.Remove(ev.Player.UserId);
         }
