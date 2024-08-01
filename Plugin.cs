@@ -15,6 +15,7 @@ namespace parkus
         public static IHandler[] NewHandlers => new IHandler[] {
             new Killcounter(),
             new ConnectionStatusBroadcast(),
+            new RemoteKeycard(),
         };
 
         public IHandler[] handlers = null;
