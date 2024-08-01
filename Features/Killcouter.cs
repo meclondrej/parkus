@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Exiled.Events.EventArgs.Player;
-using Handlers = Exiled.Events.Handlers;
 
 namespace parkus.Features
 {
-    public class Killcounter : IHandler
+    public class Killcounter
     {
         private static readonly Dictionary<int, uint> entries = new Dictionary<int, uint>();
 
@@ -33,20 +32,6 @@ namespace parkus.Features
                 entries[ev.Player.Id] = 0;
                 ev.Player.Broadcast(new Exiled.API.Features.Broadcast($"Killy: {entries[ev.Player.Id]}", 10));
             }
-        }
-
-        public void RegisterEvents()
-        {
-            Handlers.Player.Joined += OnPlayerJoined;
-            Handlers.Player.Left += OnPlayerLeft;
-            Handlers.Player.Died += OnPlayerDied;
-        }
-
-        public void UnregisterEvents()
-        {
-            Handlers.Player.Joined -= OnPlayerJoined;
-            Handlers.Player.Left -= OnPlayerLeft;
-            Handlers.Player.Died -= OnPlayerDied;
         }
     }
 }

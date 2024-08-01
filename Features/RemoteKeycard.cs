@@ -4,11 +4,10 @@ using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using Interactables.Interobjects.DoorUtils;
-using Handlers = Exiled.Events.Handlers;
 
 namespace parkus
 {
-    public class RemoteKeycard : IHandler
+    public class RemoteKeycard
     {
         public static bool HasKeycardPermission(Player player, KeycardPermissions perms)
         {
@@ -49,22 +48,6 @@ namespace parkus
                 || ev.Player.IsScp)
                 return;
             ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Chamber.RequiredPermissions);
-        }
-
-        public void RegisterEvents()
-        {
-            Handlers.Player.InteractingDoor += OnInteractingDoor;
-            Handlers.Player.ActivatingWarheadPanel += OnActivatingWarheadPanel;
-            Handlers.Player.UnlockingGenerator += OnUnlockingGenerator;
-            Handlers.Player.InteractingLocker += OnInteractingLocker;
-        }
-
-        public void UnregisterEvents()
-        {
-            Handlers.Player.InteractingDoor -= OnInteractingDoor;
-            Handlers.Player.ActivatingWarheadPanel -= OnActivatingWarheadPanel;
-            Handlers.Player.UnlockingGenerator -= OnUnlockingGenerator;
-            Handlers.Player.InteractingLocker -= OnInteractingLocker;
         }
     }
 }

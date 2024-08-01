@@ -1,10 +1,9 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using Handlers = Exiled.Events.Handlers;
 
 namespace parkus.Features
 {
-    public class ConnectionStatusBroadcast : IHandler
+    public class ConnectionStatusBroadcast
     {
         public void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
         {
@@ -22,20 +21,6 @@ namespace parkus.Features
         {
             foreach (Player player in Player.List)
                 player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} opustil hru.", 10), true);
-        }
-
-        public void RegisterEvents()
-        {
-            Handlers.Player.PreAuthenticating += OnPreAuthenticating;
-            Handlers.Player.Joined += OnPlayerJoined;
-            Handlers.Player.Left += OnPlayerLeft;
-        }
-
-        public void UnregisterEvents()
-        {
-            Handlers.Player.PreAuthenticating -= OnPreAuthenticating;
-            Handlers.Player.Joined -= OnPlayerJoined;
-            Handlers.Player.Left -= OnPlayerLeft;
         }
     }
 }
