@@ -8,12 +8,14 @@ namespace parkus
         private readonly Killcounter killcounter;
         private readonly ConnectionStatusBroadcast connectionStatusBroadcast;
         private readonly RemoteKeycard remoteKeycard;
+        private readonly LockableDoors lockableDoors;
 
         public Handlers()
         {
             killcounter = new Killcounter();
             connectionStatusBroadcast = new ConnectionStatusBroadcast();
             remoteKeycard = new RemoteKeycard();
+            lockableDoors = new LockableDoors();
         }
 
         private void OnPlayerJoined(JoinedEventArgs ev)
@@ -40,6 +42,8 @@ namespace parkus
 
         private void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
+            if (!lockableDoors.OnInteractingDoor(ev))
+                return;
             remoteKeycard.OnInteractingDoor(ev);
         }
 
