@@ -6,34 +6,32 @@ namespace parkus.Features
 {
     public class Killcounter : IHandler
     {
-        private static readonly Dictionary<string, int> entries = new Dictionary<string, int>();
+        private static readonly Dictionary<int, uint> entries = new Dictionary<int, uint>();
 
         public void OnPlayerJoined(JoinedEventArgs ev)
         {
-            entries.Add(ev.Player.UserId, 0);
+            entries.Add(ev.Player.Id, 0);
         }
 
         public void OnPlayerLeft(LeftEventArgs ev)
         {
-            if (ev.Player.UserId == null)
-                return;
-            if (entries.ContainsKey(ev.Player.UserId))
-                entries.Remove(ev.Player.UserId);
+            if (entries.ContainsKey(ev.Player.Id))
+                entries.Remove(ev.Player.Id);
         }
 
         public void OnPlayerDied(DiedEventArgs ev)
         {
             if (ev.Attacker != null
-                && ev.Player.UserId != ev.Attacker.UserId
-                && entries.ContainsKey(ev.Attacker.UserId))
+                && ev.Player.Id != ev.Attacker.Id
+                && entries.ContainsKey(ev.Attacker.Id))
             {
-                entries[ev.Attacker.UserId]++;
+                entries[ev.Attacker.Id]++;
                 ev.Attacker.Broadcast(new Exiled.API.Features.Broadcast("+1 Kill", 3));
             }
-            if (entries.ContainsKey(ev.Player.UserId))
+            if (entries.ContainsKey(ev.Player.Id))
             {
-                entries[ev.Player.UserId] = 0;
-                ev.Player.Broadcast(new Exiled.API.Features.Broadcast($"Killy: {entries[ev.Player.UserId]}", 10));
+                entries[ev.Player.Id] = 0;
+                ev.Player.Broadcast(new Exiled.API.Features.Broadcast($"Killy: {entries[ev.Player.Id]}", 10));
             }
         }
 
