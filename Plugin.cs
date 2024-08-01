@@ -1,23 +1,43 @@
-using PluginAPI.Core.Attributes;
-using parkus.features;
+using System;
+using parkus.Features;
 
 namespace parkus
 {
-    public class Plugin
+    public class Plugin : Exiled.API.Features.Plugin<Config>
     {
         public static Plugin Singleton;
 
-        public const string PluginName = "parkus";
-        public const string PluginVersion = "v1.0.0";
-        public const string PluginDescription = "parkus server core plugin";
-        public const string PluginAuthor = "meclondrej";
+        public override string Name => "parkus";
+        public override string Prefix => "parkus";
+        public override Version Version => new Version(0, 1, 0);
+        public override string Author => "meclondrej";
 
-        [PluginEntryPoint(PluginName, PluginVersion, PluginDescription, PluginAuthor)]
-        void LoadPlugin()
+        public static IHandler[] NewHandlers => new IHandler[] {
+            new Killcounter(),
+            new ConnectionStatusBroadcast(),
+        };
+
+        public IHandler[] handlers = null;
+
+        public Plugin()
         {
             Singleton = this;
-            PluginAPI.Events.EventManager.RegisterEvents<ConnectionStatusBroadcast>(this);
-            PluginAPI.Events.EventManager.RegisterEvents<Killcounter>(this);
+        }
+
+        public override void OnEnabled()
+        {
+            handlers = NewHandlers;
+            foreach (IHandler handler in handlers)
+                handler.RegisterEvents();
+            base.OnEnabled();
+        }
+
+        public override void OnDisabled()
+        {
+            foreach (IHandler handler in handlers)
+                handler.UnregisterEvents();
+            handlers = null;
+            base.OnDisabled();
         }
     }
 }

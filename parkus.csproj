@@ -7,10 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Northwood.PluginAPI" Version="13.1.2" />
     <Reference Include="Assembly-CSharp">
       <HintPath>./references/Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.CoreModule.dll">
+      <HintPath>./references/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EXILED" Version="8.9.11" />
   </ItemGroup>
 
 </Project>
