@@ -11,6 +11,7 @@ namespace parkus
         private readonly RemoteKeycard remoteKeycard;
         private readonly LockableDoors lockableDoors;
         private readonly RespawnTimer respawnTimer;
+        private readonly DefaultLoot defaultLoot;
 
         public Handlers()
         {
@@ -19,6 +20,7 @@ namespace parkus
             remoteKeycard = new RemoteKeycard();
             lockableDoors = new LockableDoors();
             respawnTimer = new RespawnTimer();
+            defaultLoot = new DefaultLoot();
         }
 
         public void OnDisabled()
@@ -81,6 +83,11 @@ namespace parkus
             respawnTimer.OnRoundEnded(ev);
         }
 
+        private void OnChangingRole(ChangingRoleEventArgs ev)
+        {
+            defaultLoot.OnChangingRole(ev);
+        }
+
         public void RegisterEvents()
         {
             Exiled.Events.Handlers.Player.Verified += OnPlayerVerified;
@@ -93,6 +100,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+            Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
         }
 
         public void UnregisterEvents()
@@ -107,6 +115,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.InteractingLocker -= OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
+            Exiled.Events.Handlers.Player.ChangingRole -= OnChangingRole;
         }
     }
 }
