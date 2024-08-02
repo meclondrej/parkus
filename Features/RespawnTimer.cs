@@ -42,6 +42,7 @@ namespace parkus.Features
             if (timerCancellationTokenSource == null)
                 return;
             timerCancellationTokenSource.Cancel();
+            timerCancellationTokenSource.Dispose();
             timerCancellationTokenSource = null;
         }
 
@@ -51,6 +52,11 @@ namespace parkus.Features
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            CancelTimer();
+        }
+
+        public void OnRestartingRound()
         {
             CancelTimer();
         }

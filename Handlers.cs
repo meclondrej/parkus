@@ -83,6 +83,11 @@ namespace parkus
             respawnTimer.OnRoundEnded(ev);
         }
 
+        private void OnRestartingRound()
+        {
+            respawnTimer.OnRestartingRound();
+        }
+
         private void OnChangingRole(ChangingRoleEventArgs ev)
         {
             defaultLoot.OnChangingRole(ev);
@@ -100,6 +105,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+            Exiled.Events.Handlers.Server.RestartingRound += OnRestartingRound;
             Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
         }
 
@@ -115,6 +121,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.InteractingLocker -= OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
+            Exiled.Events.Handlers.Server.RestartingRound -= OnRestartingRound;
             Exiled.Events.Handlers.Player.ChangingRole -= OnChangingRole;
         }
     }
