@@ -5,7 +5,7 @@ using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using Interactables.Interobjects.DoorUtils;
 
-namespace parkus
+namespace parkus.Features
 {
     public class RemoteKeycard
     {
