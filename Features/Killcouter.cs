@@ -7,9 +7,20 @@ namespace parkus.Features
     {
         private static readonly Dictionary<int, uint> entries = new Dictionary<int, uint>();
 
-        public void OnPlayerJoined(JoinedEventArgs ev)
+        public void OnPlayerDied(DiedEventArgs ev)
         {
-            entries.Add(ev.Player.Id, 0);
+            if (!entries.ContainsKey(ev.Player.Id))
+                entries.Add(ev.Player.Id, 0);
+            ev.Player.Broadcast(new Exiled.API.Features.Broadcast($"Killstreak: {entries[ev.Player.Id]}", 10));
+            entries[ev.Player.Id] = 0;
+            if (ev.Attacker == null
+                || ev.Player.Id == ev.Attacker.Id)
+                return;
+            if (entries.ContainsKey(ev.Attacker.Id))
+                entries[ev.Attacker.Id]++;
+            else
+                entries.Add(ev.Attacker.Id, 1);
+            ev.Attacker.Broadcast(new Exiled.API.Features.Broadcast($"Killstreak: {entries[ev.Attacker.Id]}\n+1 Kill", 3));
         }
 
         public void OnPlayerLeft(LeftEventArgs ev)
@@ -18,20 +29,9 @@ namespace parkus.Features
                 entries.Remove(ev.Player.Id);
         }
 
-        public void OnPlayerDied(DiedEventArgs ev)
+        public void OnRoundStarted()
         {
-            if (ev.Attacker != null
-                && ev.Player.Id != ev.Attacker.Id
-                && entries.ContainsKey(ev.Attacker.Id))
-            {
-                entries[ev.Attacker.Id]++;
-                ev.Attacker.Broadcast(new Exiled.API.Features.Broadcast("+1 Kill", 3));
-            }
-            if (entries.ContainsKey(ev.Player.Id))
-            {
-                entries[ev.Player.Id] = 0;
-                ev.Player.Broadcast(new Exiled.API.Features.Broadcast($"Killy: {entries[ev.Player.Id]}", 10));
-            }
+            entries.Clear();
         }
     }
 }

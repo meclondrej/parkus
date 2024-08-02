@@ -21,7 +21,6 @@ namespace parkus
         private void OnPlayerJoined(JoinedEventArgs ev)
         {
             connectionStatusBroadcast.OnPlayerJoined(ev);
-            killcounter.OnPlayerJoined(ev);
         }
 
         private void OnPlayerLeft(LeftEventArgs ev)
@@ -62,6 +61,11 @@ namespace parkus
             remoteKeycard.OnInteractingLocker(ev);
         }
 
+        private void OnRoundStarted()
+        {
+            killcounter.OnRoundStarted();
+        }
+
         public void RegisterEvents()
         {
             Exiled.Events.Handlers.Player.Joined += OnPlayerJoined;
@@ -72,6 +76,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.ActivatingWarheadPanel += OnActivatingWarheadPanel;
             Exiled.Events.Handlers.Player.UnlockingGenerator += OnUnlockingGenerator;
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
+            Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
         }
 
         public void UnregisterEvents()
@@ -84,6 +89,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.ActivatingWarheadPanel -= OnActivatingWarheadPanel;
             Exiled.Events.Handlers.Player.UnlockingGenerator -= OnUnlockingGenerator;
             Exiled.Events.Handlers.Player.InteractingLocker -= OnInteractingLocker;
+            Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
         }
     }
 }
