@@ -28,6 +28,7 @@ namespace parkus
         public override void OnDisabled()
         {
             handlers.UnregisterEvents();
+            handlers.OnDisabled();
             handlers = null;
             base.OnDisabled();
         }

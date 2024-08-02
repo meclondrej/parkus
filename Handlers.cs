@@ -10,6 +10,7 @@ namespace parkus
         private readonly ConnectionStatusBroadcast connectionStatusBroadcast;
         private readonly RemoteKeycard remoteKeycard;
         private readonly LockableDoors lockableDoors;
+        private readonly RespawnTimer respawnTimer;
 
         public Handlers()
         {
@@ -17,6 +18,12 @@ namespace parkus
             connectionStatusBroadcast = new ConnectionStatusBroadcast();
             remoteKeycard = new RemoteKeycard();
             lockableDoors = new LockableDoors();
+            respawnTimer = new RespawnTimer();
+        }
+
+        public void OnDisabled()
+        {
+            respawnTimer.OnDisabled();
         }
 
         private void OnPlayerVerified(VerifiedEventArgs ev)
@@ -33,6 +40,7 @@ namespace parkus
         private void OnPlayerDied(DiedEventArgs ev)
         {
             killcounter.OnPlayerDied(ev);
+            respawnTimer.OnPlayerDied(ev);
         }
 
         private void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
@@ -65,6 +73,12 @@ namespace parkus
         private void OnRoundStarted()
         {
             killcounter.OnRoundStarted();
+            respawnTimer.OnRoundStarted();
+        }
+
+        private void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            respawnTimer.OnRoundEnded(ev);
         }
 
         public void RegisterEvents()
@@ -78,6 +92,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.UnlockingGenerator += OnUnlockingGenerator;
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
+            Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
         }
 
         public void UnregisterEvents()
@@ -91,6 +106,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.UnlockingGenerator -= OnUnlockingGenerator;
             Exiled.Events.Handlers.Player.InteractingLocker -= OnInteractingLocker;
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
+            Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
         }
     }
 }
