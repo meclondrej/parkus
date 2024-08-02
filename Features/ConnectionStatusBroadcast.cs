@@ -11,7 +11,7 @@ namespace parkus.Features
                 player.Broadcast(new Exiled.API.Features.Broadcast("Hráč se připojuje...", 10), true);
         }
 
-        public void OnPlayerJoined(JoinedEventArgs ev)
+        public void OnPlayerVerified(VerifiedEventArgs ev)
         {
             foreach (Player player in Player.List)
                 player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} se připojil do hry.", 10), true);

@@ -18,9 +18,9 @@ namespace parkus
             lockableDoors = new LockableDoors();
         }
 
-        private void OnPlayerJoined(JoinedEventArgs ev)
+        private void OnPlayerVerified(VerifiedEventArgs ev)
         {
-            connectionStatusBroadcast.OnPlayerJoined(ev);
+            connectionStatusBroadcast.OnPlayerVerified(ev);
         }
 
         private void OnPlayerLeft(LeftEventArgs ev)
@@ -68,7 +68,7 @@ namespace parkus
 
         public void RegisterEvents()
         {
-            Exiled.Events.Handlers.Player.Joined += OnPlayerJoined;
+            Exiled.Events.Handlers.Player.Verified += OnPlayerVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
             Exiled.Events.Handlers.Player.Died += OnPlayerDied;
             Exiled.Events.Handlers.Player.PreAuthenticating += OnPreAuthenticating;
@@ -81,7 +81,7 @@ namespace parkus
 
         public void UnregisterEvents()
         {
-            Exiled.Events.Handlers.Player.Joined -= OnPlayerJoined;
+            Exiled.Events.Handlers.Player.Verified -= OnPlayerVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
             Exiled.Events.Handlers.Player.Died -= OnPlayerDied;
             Exiled.Events.Handlers.Player.PreAuthenticating -= OnPreAuthenticating;
