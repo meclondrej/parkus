@@ -16,6 +16,7 @@ namespace parkus
                 || (!ev.Door.IsFullyOpen && !ev.Door.IsFullyClosed)
                 || (!ev.IsAllowed && !RemoteKeycard.HasKeycardPermission(ev.Player, ev.Door.RequiredPermissions.RequiredPermissions)))
                 return true;
+            ev.IsAllowed = false;
             if (ev.Door.IsFullyOpen)
                 ev.Door.IsOpen = false;
             ev.Door.Lock(30, Exiled.API.Enums.DoorLockType.NoPower);
