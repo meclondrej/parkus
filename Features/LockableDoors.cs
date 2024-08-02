@@ -20,7 +20,7 @@ namespace parkus
             if (ev.Door.IsFullyOpen)
                 ev.Door.IsOpen = false;
             ev.Door.Lock(30, Exiled.API.Enums.DoorLockType.NoPower);
-            ev.Player.CurrentItem = null;
+            ev.Player.RemoveItem(ev.Player.CurrentItem);
             return false;
         }
     }
