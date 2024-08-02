@@ -1,4 +1,5 @@
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
 using parkus.Features;
 
 namespace parkus
