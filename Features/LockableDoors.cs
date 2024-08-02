@@ -1,7 +1,8 @@
 using Exiled.Events.EventArgs.Player;
 using Exiled.API.Features.Doors;
+using parkus.Features;
 
-namespace parkus
+namespace parkus.Features
 {
     public class LockableDoors
     {
