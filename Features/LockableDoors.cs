@@ -1,6 +1,5 @@
 using Exiled.Events.EventArgs.Player;
 using Exiled.API.Features.Doors;
-using parkus.Features;
 
 namespace parkus.Features
 {
@@ -15,7 +14,7 @@ namespace parkus.Features
                 || ev.Door.IsLocked
                 || (ev.Door is BreakableDoor breakableDoor && breakableDoor.IsDestroyed)
                 || (!ev.Door.IsFullyOpen && !ev.Door.IsFullyClosed)
-                || (!ev.IsAllowed && !RemoteKeycard.HasKeycardPermission(ev.Player, ev.Door.RequiredPermissions.RequiredPermissions)))
+                || (!ev.IsAllowed && !RemoteKeycard.HasKeycardPermission(ev.Player, ev.Door.KeycardPermissions)))
                 return true;
             ev.IsAllowed = false;
             if (ev.Door.IsFullyOpen)

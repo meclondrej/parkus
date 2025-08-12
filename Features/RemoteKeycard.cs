@@ -1,9 +1,8 @@
-using System;
 using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
-using Interactables.Interobjects.DoorUtils;
 
 namespace parkus.Features
 {
@@ -13,7 +12,7 @@ namespace parkus.Features
         {
             // strips ScpOverride off of the required perms, not meant for cards
             KeycardPermissions stripped_perms = perms & ~KeycardPermissions.ScpOverride;
-            return player.Items.Any(item => item is Keycard keycard && keycard.Base.Permissions.HasFlagFast(stripped_perms));
+            return player.Items.Any(item => item is Keycard keycard && keycard.Permissions.HasFlag(stripped_perms));
         }
 
         public void OnInteractingDoor(InteractingDoorEventArgs ev)
@@ -22,7 +21,7 @@ namespace parkus.Features
                 || ev.Door.Base.ActiveLocks > 0
                 || ev.Player.IsScp)
                 return;
-            ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Door.RequiredPermissions.RequiredPermissions);
+            ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Door.KeycardPermissions);
         }
 
         public void OnActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
@@ -38,16 +37,16 @@ namespace parkus.Features
             if (ev.IsAllowed
                 || ev.Player.IsScp)
                 return;
-            ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Generator.Base._requiredPermission);
+            ev.IsAllowed = HasKeycardPermission(ev.Player, (KeycardPermissions)ev.Generator.Base._requiredPermission);
         }
 
         public void OnInteractingLocker(InteractingLockerEventArgs ev)
         {
             if (ev.IsAllowed
-                || ev.Chamber == null
+                || ev.InteractingChamber == null
                 || ev.Player.IsScp)
                 return;
-            ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Chamber.RequiredPermissions);
+            ev.IsAllowed = HasKeycardPermission(ev.Player, ev.InteractingChamber.RequiredPermissions);
         }
     }
 }
