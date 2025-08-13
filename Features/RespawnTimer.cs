@@ -27,7 +27,7 @@ namespace parkus.Features
                 string hint = GenerateTimerText();
                 foreach (Player player in Player.List.Where(p => !p.IsAlive))
                 {
-                    player.ShowHint(hint, 1.0f);
+                    player.ShowHint(hint, 1.2f);
                 }
             }
         }
