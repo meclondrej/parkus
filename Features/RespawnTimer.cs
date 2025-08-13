@@ -82,8 +82,12 @@ namespace parkus.Features
 
         private string GenerateTimerText()
         {
-            TimeSpan ntfTime = ntfWave.Timer.TimeLeft + TimeSpan.FromSeconds(18);
-            TimeSpan chaosTime = chaosWave.Timer.TimeLeft + TimeSpan.FromSeconds(13);
+            TimeSpan ntfTime = (ntfWave?.Timer.TimeLeft ?? TimeSpan.Zero) + TimeSpan.FromSeconds(18);
+            if (ntfTime < TimeSpan.Zero)
+                ntfTime = TimeSpan.Zero;
+            TimeSpan chaosTime = (chaosWave?.Timer.TimeLeft ?? TimeSpan.Zero) + TimeSpan.FromSeconds(13);
+            if (chaosTime < TimeSpan.Zero)
+                chaosTime = TimeSpan.Zero;
             StringBuilder builder = new StringBuilder("Další spawn jako: {nextrole}\n<color=#3333FF>NTF</color>: {ntftime}\n<color=#33FF33>CHAOS</color>: {chaostime}");
             switch (WaveManager._nextWave?.TargetFaction)
             {
@@ -97,12 +101,8 @@ namespace parkus.Features
                     builder.Replace("{nextrole}", "???");
                     break;
             }
-            builder.Replace("{ntftime}", ntfWave != null
-                ? $"{ntfTime.TotalMinutes:00}:{ntfTime.Seconds:00}"
-                : "nikdy");
-            builder.Replace("{chaostime}", chaosWave != null
-                ? $"{chaosTime.TotalMinutes:00}:{chaosTime.Seconds:00}"
-                : "nikdy");
+            builder.Replace("{ntftime}", $"{ntfTime.TotalMinutes:00}:{ntfTime.Seconds:00}");
+            builder.Replace("{chaostime}", $"{chaosTime.TotalMinutes:00}:{chaosTime.Seconds:00}");
             return builder.ToString();
         }
     }
