@@ -14,13 +14,15 @@ namespace parkus.Features
         public void OnPlayerVerified(VerifiedEventArgs ev)
         {
             foreach (Player player in Player.List)
-                player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} se připojil do hry.", 10), true);
+                if (player.Id != ev.Player.Id)
+                    player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} se připojil do hry.", 10), true);
         }
 
         public void OnPlayerLeft(LeftEventArgs ev)
         {
             foreach (Player player in Player.List)
-                player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} opustil hru.", 10), true);
+                if (player.Id != ev.Player.Id)
+                    player.Broadcast(new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} opustil hru.", 10), true);
         }
     }
 }
