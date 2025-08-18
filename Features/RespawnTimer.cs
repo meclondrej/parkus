@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Exiled.API.Features;
 using Exiled.API.Features.Waves;
 using Exiled.Events.EventArgs.Player;
@@ -10,49 +9,38 @@ using Exiled.Events.EventArgs.Server;
 using PlayerRoles;
 using Respawning;
 using Respawning.Waves;
+using MEC;
 
 namespace parkus.Features
 {
     public class RespawnTimer
     {
-        private CancellationTokenSource timerCancellationTokenSource = null;
-        private TimedWave ntfWave = null;
-        private TimedWave chaosWave = null;
+        private CoroutineHandle timerHandle;
 
-        private async Task Timer()
+        private IEnumerator<float> Timer()
         {
-            while (!timerCancellationTokenSource.Token.IsCancellationRequested)
+            while (true)
             {
-                await Task.Delay(1000, timerCancellationTokenSource.Token);
                 string hint = GenerateTimerText();
-                foreach (Player player in Player.List.Where(p => !p.IsAlive))
-                {
-                    player.ShowHint(hint, 1.2f);
-                }
+                foreach (Player player in Player.List.ToList().Where(p => p.IsDead))
+                        player.ShowHint(hint, 1.2f);
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 
         private void RunTimer()
         {
-            if (TimedWave.TryGetTimedWave<NtfSpawnWave>(out TimedWave ntfWave))
-                this.ntfWave = ntfWave;
-            if (TimedWave.TryGetTimedWave<ChaosSpawnWave>(out TimedWave chaosWave))
-                this.chaosWave = chaosWave;
-            if (timerCancellationTokenSource != null)
+            if (timerHandle.IsRunning)
                 return;
-            timerCancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => Timer(), timerCancellationTokenSource.Token);
+            timerHandle = Timing.RunCoroutine(Timer());
         }
 
         private void CancelTimer()
         {
-            ntfWave = null;
-            chaosWave = null;
-            if (timerCancellationTokenSource == null)
+            if (!timerHandle.IsRunning)
                 return;
-            timerCancellationTokenSource.Cancel();
-            timerCancellationTokenSource.Dispose();
-            timerCancellationTokenSource = null;
+            Timing.KillCoroutines(timerHandle);
+            timerHandle = default;
         }
 
         public void OnRoundStarted()
@@ -80,15 +68,23 @@ namespace parkus.Features
             ev.Player.ShowHint(GenerateTimerText(), 1.0f);
         }
 
+        private static string GetWaveRespawnText<T>() where T : TimeBasedWave
+        {
+            if (!TimedWave.TryGetTimedWave<T>(out TimedWave wave))
+                return "--:--";
+            TimeSpan span = wave.Timer.TimeLeft;
+            if (wave.Faction == Faction.FoundationStaff)
+                span += TimeSpan.FromSeconds(18);
+            if (wave.Faction == Faction.FoundationEnemy)
+                span += TimeSpan.FromSeconds(13);
+            if (span < TimeSpan.Zero)
+                return "--:--";
+            return $"{span.TotalMinutes:00}:{span.Seconds:00}";
+        }
+
         private string GenerateTimerText()
         {
-            TimeSpan ntfTime = ntfWave?.Timer.TimeLeft.Add(TimeSpan.FromSeconds(18)) ?? TimeSpan.Zero;
-            if (ntfTime < TimeSpan.Zero)
-                ntfTime = TimeSpan.Zero;
-            TimeSpan chaosTime = chaosWave?.Timer.TimeLeft.Add(TimeSpan.FromSeconds(13)) ?? TimeSpan.Zero;
-            if (chaosTime < TimeSpan.Zero)
-                chaosTime = TimeSpan.Zero;
-            StringBuilder builder = new StringBuilder("Další spawn jako: {nextrole}\n<color=#3333FF>NTF</color>: {ntftime}\n<color=#33FF33>CHAOS</color>: {chaostime}");
+            StringBuilder builder = new StringBuilder("Další spawn jako: {nextrole}\n<color=#3333FF>NTF</color>: {ntftime}\n<color=#3333FF>NTF</color> MINI: {ntfminitime}\n<color=#33FF33>CHAOS</color>: {chaostime}\n<color=#33FF33>CHAOS</color> MINI: {chaosminitime}");
             switch (WaveManager._nextWave?.TargetFaction)
             {
                 case Faction.FoundationStaff: // NTF
@@ -101,8 +97,10 @@ namespace parkus.Features
                     builder.Replace("{nextrole}", "???");
                     break;
             }
-            builder.Replace("{ntftime}", $"{ntfTime.TotalMinutes:00}:{ntfTime.Seconds:00}");
-            builder.Replace("{chaostime}", $"{chaosTime.TotalMinutes:00}:{chaosTime.Seconds:00}");
+            builder.Replace("{ntftime}", GetWaveRespawnText<NtfSpawnWave>());
+            builder.Replace("{ntfminitime}", GetWaveRespawnText<NtfMiniWave>());
+            builder.Replace("{chaostime}", GetWaveRespawnText<ChaosSpawnWave>());
+            builder.Replace("{chaosminitime}", GetWaveRespawnText<ChaosMiniWave>());
             return builder.ToString();
         }
     }

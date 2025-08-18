@@ -9,6 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="ExMod.Exiled" Version="9.8.0" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>references/Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>references/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
