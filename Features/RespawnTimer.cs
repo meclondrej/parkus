@@ -48,7 +48,7 @@ namespace parkus.Features
             RunTimer();
         }
 
-        public void OnRoundEnded(RoundEndedEventArgs ev)
+        public void OnRoundEnded()
         {
             CancelTimer();
         }

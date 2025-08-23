@@ -5,7 +5,7 @@ namespace parkus.Features
 {
     public class ConnectionStatusBroadcast
     {
-        public void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
+        public void OnPreAuthenticating()
         {
             foreach (Player player in Player.List)
                 player.Broadcast(new Exiled.API.Features.Broadcast("Hráč se připojuje...", 10), true);

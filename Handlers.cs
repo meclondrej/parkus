@@ -47,7 +47,7 @@ namespace parkus
 
         private void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
         {
-            connectionStatusBroadcast.OnPreAuthenticating(ev);
+            connectionStatusBroadcast.OnPreAuthenticating();
         }
 
         private void OnInteractingDoor(InteractingDoorEventArgs ev)
@@ -80,7 +80,7 @@ namespace parkus
 
         private void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            respawnTimer.OnRoundEnded(ev);
+            respawnTimer.OnRoundEnded();
         }
 
         private void OnRestartingRound()
