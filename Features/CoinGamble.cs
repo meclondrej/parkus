@@ -91,7 +91,7 @@ public class CoinGamble
         new CoinEffect(10, player => {
             player.DropItems();
             player.DisableAllEffects();
-            player.Role.Set(RoleTypeId.Scp3114, SpawnReason.ItemUsage, RoleSpawnFlags.UseSpawnpoint);
+            player.Role.Set(RoleTypeId.Scp3114, SpawnReason.ItemUsage, RoleSpawnFlags.AssignInventory);
         }),
 
         // kills the player
