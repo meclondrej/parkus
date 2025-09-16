@@ -12,6 +12,7 @@ namespace parkus
         private readonly LockableDoors lockableDoors;
         private readonly RespawnTimer respawnTimer;
         private readonly DefaultLoot defaultLoot;
+        private readonly CoinGamble coinGamble;
 
         public Handlers()
         {
@@ -21,6 +22,7 @@ namespace parkus
             lockableDoors = new LockableDoors();
             respawnTimer = new RespawnTimer();
             defaultLoot = new DefaultLoot();
+            coinGamble = new CoinGamble();
         }
 
         public void OnDisabled()
@@ -93,6 +95,11 @@ namespace parkus
             defaultLoot.OnChangingRole(ev);
         }
 
+        private void OnFlippingCoin(FlippingCoinEventArgs ev)
+        {
+            coinGamble.OnFlippingCoin(ev);
+        }
+
         public void RegisterEvents()
         {
             Exiled.Events.Handlers.Player.Verified += OnPlayerVerified;
@@ -107,6 +114,7 @@ namespace parkus
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
             Exiled.Events.Handlers.Server.RestartingRound += OnRestartingRound;
             Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
+            Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
         }
 
         public void UnregisterEvents()
@@ -123,6 +131,7 @@ namespace parkus
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
             Exiled.Events.Handlers.Server.RestartingRound -= OnRestartingRound;
             Exiled.Events.Handlers.Player.ChangingRole -= OnChangingRole;
+            Exiled.Events.Handlers.Player.FlippingCoin -= OnFlippingCoin;
         }
     }
 }
