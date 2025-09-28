@@ -13,6 +13,7 @@ public class Handlers
     private readonly RespawnTimer respawnTimer;
     private readonly DefaultLoot defaultLoot;
     private readonly CoinGamble coinGamble;
+    private readonly AutoReport autoReport;
 
     public Handlers()
     {
@@ -23,6 +24,7 @@ public class Handlers
         respawnTimer = new RespawnTimer();
         defaultLoot = new DefaultLoot();
         coinGamble = new CoinGamble();
+        autoReport = new AutoReport();
     }
 
     public void OnDisabled()
@@ -45,6 +47,7 @@ public class Handlers
     {
         killcounter.OnPlayerDied(ev);
         respawnTimer.OnPlayerDied(ev);
+        autoReport.OnPlayerDied(ev);
     }
 
     private void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
