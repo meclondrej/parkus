@@ -29,6 +29,9 @@ namespace parkus.Features
 
         public void OnPlayerDied(DiedEventArgs ev)
         {
+            if (!Round.InProgress)
+                return;
+
             // zombie suicide check
             if (ev.TargetOldRole == RoleTypeId.Scp0492
                     && (ev.Attacker == ev.Player
