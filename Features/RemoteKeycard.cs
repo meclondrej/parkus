@@ -12,7 +12,7 @@ namespace parkus.Features
         {
             // strips ScpOverride and invalid permission bits off of the required perms
             KeycardPermissions stripped_perms = perms & ~KeycardPermissions.ScpOverride & (KeycardPermissions)0x7FF;
-            return player.Items.Any(item => item is Keycard keycard && keycard.Permissions.HasFlag(stripped_perms));
+            return player.Items.Any(item => item is Keycard keycard && keycard.Permissions.HasFlag(stripped_perms) && keycard.Type != ItemType.SurfaceAccessPass);
         }
 
         public void OnInteractingDoor(InteractingDoorEventArgs ev)
