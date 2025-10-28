@@ -9,50 +9,50 @@ using PlayerRoles;
 
 namespace parkus.Features
 {
-public class CoinGamble
-{
-    private static readonly System.Random rnd = new System.Random();
-
-    private struct ItemChance
+    public class CoinGamble
     {
-        public ItemChance(ItemType item, ushort luck_required)
+        private static readonly System.Random rnd = new System.Random();
+
+        private struct ItemChance
         {
-            this.item = item;
-            this.luck_required = luck_required;
+            public ItemChance(ItemType item, ushort luck_required)
+            {
+                this.item = item;
+                this.luck_required = luck_required;
+            }
+
+            public ItemType item;
+            public ushort luck_required;
         }
 
-        public ItemType item;
-        public ushort luck_required;
-    }
+        private static readonly ItemChance[] itemChances = {
+            new ItemChance(ItemType.KeycardO5, 98),
+            new ItemChance(ItemType.MicroHID, 96),
+            new ItemChance(ItemType.ParticleDisruptor, 94),
+            new ItemChance(ItemType.Jailbird, 90),
+            new ItemChance(ItemType.GunFRMG0, 85),
+            new ItemChance(ItemType.GunE11SR, 80),
+            new ItemChance(ItemType.ArmorHeavy, 70),
+            new ItemChance(ItemType.GrenadeHE, 60),
+            new ItemChance(ItemType.SCP500, 50),
+            new ItemChance(ItemType.Adrenaline, 40),
+            new ItemChance(ItemType.Medkit, 20),
+            new ItemChance(ItemType.KeycardScientist, 0),
+        };
 
-    private static readonly ItemChance[] itemChances = {
-        new ItemChance(ItemType.KeycardO5, 98),
-        new ItemChance(ItemType.MicroHID, 96),
-        new ItemChance(ItemType.ParticleDisruptor, 94),
-        new ItemChance(ItemType.Jailbird, 90),
-        new ItemChance(ItemType.GunFRMG0, 85),
-        new ItemChance(ItemType.GunE11SR, 80),
-        new ItemChance(ItemType.ArmorHeavy, 70),
-        new ItemChance(ItemType.GrenadeHE, 60),
-        new ItemChance(ItemType.SCP500, 50),
-        new ItemChance(ItemType.Adrenaline, 40),
-        new ItemChance(ItemType.Medkit, 20),
-        new ItemChance(ItemType.KeycardScientist, 0),
-    };
-
-    private struct CoinEffect
-    {
-        public CoinEffect(ushort luck_required, Action<Player> action)
+        private struct CoinEffect
         {
-            this.luck_required = luck_required;
-            this.action = action;
+            public CoinEffect(ushort luck_required, Action<Player> action)
+            {
+                this.luck_required = luck_required;
+                this.action = action;
+            }
+
+            public Action<Player> action;
+            public ushort luck_required;
         }
 
-        public Action<Player> action;
-        public ushort luck_required;
-    }
-
-    private static readonly CoinEffect[] coinEffects = {
+        private static readonly CoinEffect[] coinEffects = {
 
         // ========== GOOD EFFECTS ==========
 
@@ -100,16 +100,16 @@ public class CoinGamble
         }),
     };
 
-    public void OnFlippingCoin(FlippingCoinEventArgs ev)
-    {
-        ushort luck = (ushort)rnd.Next(101);
-        ev.Player.RemoveHeldItem();
-        foreach (CoinEffect e in coinEffects)
-            if (luck >= e.luck_required)
-            {
-                e.action(ev.Player);
-                break;
-            }
+        public void OnFlippingCoin(FlippingCoinEventArgs ev)
+        {
+            ushort luck = (ushort)rnd.Next(101);
+            ev.Player.RemoveHeldItem();
+            foreach (CoinEffect e in coinEffects)
+                if (luck >= e.luck_required)
+                {
+                    e.action(ev.Player);
+                    break;
+                }
+        }
     }
-}
 }
