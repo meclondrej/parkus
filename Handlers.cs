@@ -14,6 +14,7 @@ namespace parkus
         private readonly DefaultLoot defaultLoot;
         private readonly CoinGamble coinGamble;
         private readonly AutoReport autoReport;
+        private readonly OverwatchJail overwatchJail;
 
         public Handlers()
         {
@@ -25,6 +26,7 @@ namespace parkus
             defaultLoot = new DefaultLoot();
             coinGamble = new CoinGamble();
             autoReport = new AutoReport();
+            overwatchJail = new OverwatchJail();
         }
 
         public void OnDisabled()
@@ -95,6 +97,7 @@ namespace parkus
 
         private void OnChangingRole(ChangingRoleEventArgs ev)
         {
+            overwatchJail.OnChangingRole(ev);
             defaultLoot.OnChangingRole(ev);
         }
 
