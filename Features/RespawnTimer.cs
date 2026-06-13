@@ -13,11 +13,11 @@ using Respawning.Waves;
 
 namespace parkus.Features
 {
-    public class RespawnTimer
+    public static class RespawnTimer
     {
-        private CoroutineHandle timerHandle;
+        private static CoroutineHandle timerHandle;
 
-        private IEnumerator<float> Timer()
+        private static IEnumerator<float> Timer()
         {
             while (true)
             {
@@ -28,14 +28,14 @@ namespace parkus.Features
             }
         }
 
-        private void RunTimer()
+        private static void RunTimer()
         {
             if (timerHandle.IsRunning)
                 return;
             timerHandle = Timing.RunCoroutine(Timer());
         }
 
-        private void CancelTimer()
+        private static void CancelTimer()
         {
             if (!timerHandle.IsRunning)
                 return;
@@ -43,27 +43,27 @@ namespace parkus.Features
             timerHandle = default;
         }
 
-        public void OnRoundStarted()
+        public static void OnRoundStarted()
         {
             RunTimer();
         }
 
-        public void OnRoundEnded()
+        public static void OnRoundEnded()
         {
             CancelTimer();
         }
 
-        public void OnRestartingRound()
+        public static void OnRestartingRound()
         {
             CancelTimer();
         }
 
-        public void OnDisabled()
+        public static void OnDisabled()
         {
             CancelTimer();
         }
 
-        public void OnPlayerDied(DiedEventArgs ev)
+        public static void OnPlayerDied(DiedEventArgs ev)
         {
             ev.Player.ShowHint(GenerateTimerText(), 1.0f);
         }
@@ -123,7 +123,7 @@ namespace parkus.Features
             + "Class-D uteklo: {classdescape}\n"
             + "Scientistů uteklo: {scientistescape}\n";
 
-        private string GenerateTimerText()
+        private static string GenerateTimerText()
         {
             StringBuilder builder = new StringBuilder(TimerTextTemplate);
             switch (WaveManager._nextWave?.TargetFaction)

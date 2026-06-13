@@ -4,7 +4,7 @@ using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
-    public class DefaultLoot
+    public static class DefaultLoot
     {
         private static readonly Random rnd = new Random();
 
@@ -20,7 +20,7 @@ namespace parkus.Features
         };
         private const ushort ClassDMaxItems = 2;
 
-        public void OnChangingRole(ChangingRoleEventArgs ev)
+        public static void OnChangingRole(ChangingRoleEventArgs ev)
         {
             if (ev.Reason == Exiled.API.Enums.SpawnReason.ForceClass)
                 return;
@@ -33,7 +33,7 @@ namespace parkus.Features
             }
         }
 
-        private List<ItemType> GenerateDefaultLoot(ItemType[] table, ushort maxItems)
+        private static List<ItemType> GenerateDefaultLoot(ItemType[] table, ushort maxItems)
         {
             List<ItemType> result = new List<ItemType>();
             ushort itemCount = (ushort)rnd.Next(maxItems + 1);

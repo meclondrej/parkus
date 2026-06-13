@@ -3,11 +3,11 @@ using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
-    public class Killcounter
+    public static class Killcounter
     {
         private static readonly Dictionary<int, uint> entries = new Dictionary<int, uint>();
 
-        public void OnPlayerDied(DiedEventArgs ev)
+        public static void OnPlayerDied(DiedEventArgs ev)
         {
             if (!entries.ContainsKey(ev.Player.Id))
                 entries.Add(ev.Player.Id, 0);
@@ -29,13 +29,13 @@ namespace parkus.Features
             );
         }
 
-        public void OnPlayerLeft(LeftEventArgs ev)
+        public static void OnPlayerLeft(LeftEventArgs ev)
         {
             if (entries.ContainsKey(ev.Player.Id))
                 entries.Remove(ev.Player.Id);
         }
 
-        public void OnRoundStarted()
+        public static void OnRoundStarted()
         {
             entries.Clear();
         }

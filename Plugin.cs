@@ -11,8 +11,6 @@ namespace parkus
         public override Version Version => new Version(0, 1, 0);
         public override string Author => "meclondrej";
 
-        public Handlers handlers;
-
         public Plugin()
         {
             Singleton = this;
@@ -20,16 +18,14 @@ namespace parkus
 
         public override void OnEnabled()
         {
-            handlers = new Handlers();
-            handlers.RegisterEvents();
+            Handlers.RegisterEvents();
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            handlers.UnregisterEvents();
-            handlers.OnDisabled();
-            handlers = null;
+            Handlers.UnregisterEvents();
+            Handlers.OnDisabled();
             base.OnDisabled();
         }
     }

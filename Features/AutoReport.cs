@@ -6,7 +6,7 @@ using PlayerRoles;
 
 namespace parkus.Features
 {
-    public class AutoReport
+    public static class AutoReport
     {
         public static void Report(string msg)
         {
@@ -26,7 +26,7 @@ namespace parkus.Features
             }
         }
 
-        public void OnPlayerDied(DiedEventArgs ev)
+        public static void OnPlayerDied(DiedEventArgs ev)
         {
             if (!Round.InProgress)
                 return;

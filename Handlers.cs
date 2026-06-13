@@ -4,109 +4,86 @@ using parkus.Features;
 
 namespace parkus
 {
-    public class Handlers
+    public static class Handlers
     {
-        private readonly Killcounter killcounter;
-        private readonly ConnectionStatusBroadcast connectionStatusBroadcast;
-        private readonly RemoteKeycard remoteKeycard;
-        private readonly LockableDoors lockableDoors;
-        private readonly RespawnTimer respawnTimer;
-        private readonly DefaultLoot defaultLoot;
-        private readonly CoinGamble coinGamble;
-        private readonly AutoReport autoReport;
-        private readonly OverwatchJail overwatchJail;
-
-        public Handlers()
+        public static void OnDisabled()
         {
-            killcounter = new Killcounter();
-            connectionStatusBroadcast = new ConnectionStatusBroadcast();
-            remoteKeycard = new RemoteKeycard();
-            lockableDoors = new LockableDoors();
-            respawnTimer = new RespawnTimer();
-            defaultLoot = new DefaultLoot();
-            coinGamble = new CoinGamble();
-            autoReport = new AutoReport();
-            overwatchJail = new OverwatchJail();
+            RespawnTimer.OnDisabled();
         }
 
-        public void OnDisabled()
+        private static void OnPlayerVerified(VerifiedEventArgs ev)
         {
-            respawnTimer.OnDisabled();
+            ConnectionStatusBroadcast.OnPlayerVerified(ev);
         }
 
-        private void OnPlayerVerified(VerifiedEventArgs ev)
+        private static void OnPlayerLeft(LeftEventArgs ev)
         {
-            connectionStatusBroadcast.OnPlayerVerified(ev);
+            ConnectionStatusBroadcast.OnPlayerLeft(ev);
+            Killcounter.OnPlayerLeft(ev);
         }
 
-        private void OnPlayerLeft(LeftEventArgs ev)
+        private static void OnPlayerDied(DiedEventArgs ev)
         {
-            connectionStatusBroadcast.OnPlayerLeft(ev);
-            killcounter.OnPlayerLeft(ev);
+            Killcounter.OnPlayerDied(ev);
+            RespawnTimer.OnPlayerDied(ev);
+            AutoReport.OnPlayerDied(ev);
         }
 
-        private void OnPlayerDied(DiedEventArgs ev)
+        private static void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
         {
-            killcounter.OnPlayerDied(ev);
-            respawnTimer.OnPlayerDied(ev);
-            autoReport.OnPlayerDied(ev);
+            ConnectionStatusBroadcast.OnPreAuthenticating();
         }
 
-        private void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
+        private static void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
-            connectionStatusBroadcast.OnPreAuthenticating();
-        }
-
-        private void OnInteractingDoor(InteractingDoorEventArgs ev)
-        {
-            if (!lockableDoors.OnInteractingDoor(ev))
+            if (!LockableDoors.OnInteractingDoor(ev))
                 return;
-            remoteKeycard.OnInteractingDoor(ev);
+            RemoteKeycard.OnInteractingDoor(ev);
         }
 
-        private void OnActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
+        private static void OnActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
         {
-            remoteKeycard.OnActivatingWarheadPanel(ev);
+            RemoteKeycard.OnActivatingWarheadPanel(ev);
         }
 
-        private void OnUnlockingGenerator(UnlockingGeneratorEventArgs ev)
+        private static void OnUnlockingGenerator(UnlockingGeneratorEventArgs ev)
         {
-            remoteKeycard.OnUnlockingGenerator(ev);
+            RemoteKeycard.OnUnlockingGenerator(ev);
         }
 
-        private void OnInteractingLocker(InteractingLockerEventArgs ev)
+        private static void OnInteractingLocker(InteractingLockerEventArgs ev)
         {
-            remoteKeycard.OnInteractingLocker(ev);
+            RemoteKeycard.OnInteractingLocker(ev);
         }
 
-        private void OnRoundStarted()
+        private static void OnRoundStarted()
         {
-            killcounter.OnRoundStarted();
-            respawnTimer.OnRoundStarted();
+            Killcounter.OnRoundStarted();
+            RespawnTimer.OnRoundStarted();
         }
 
-        private void OnRoundEnded(RoundEndedEventArgs ev)
+        private static void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            respawnTimer.OnRoundEnded();
+            RespawnTimer.OnRoundEnded();
         }
 
-        private void OnRestartingRound()
+        private static void OnRestartingRound()
         {
-            respawnTimer.OnRestartingRound();
+            RespawnTimer.OnRestartingRound();
         }
 
-        private void OnChangingRole(ChangingRoleEventArgs ev)
+        private static void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            overwatchJail.OnChangingRole(ev);
-            defaultLoot.OnChangingRole(ev);
+            OverwatchJail.OnChangingRole(ev);
+            DefaultLoot.OnChangingRole(ev);
         }
 
-        private void OnFlippingCoin(FlippingCoinEventArgs ev)
+        private static void OnFlippingCoin(FlippingCoinEventArgs ev)
         {
-            coinGamble.OnFlippingCoin(ev);
+            CoinGamble.OnFlippingCoin(ev);
         }
 
-        public void RegisterEvents()
+        public static void RegisterEvents()
         {
             Exiled.Events.Handlers.Player.Verified += OnPlayerVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
@@ -123,7 +100,7 @@ namespace parkus
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
         }
 
-        public void UnregisterEvents()
+        public static void UnregisterEvents()
         {
             Exiled.Events.Handlers.Player.Verified -= OnPlayerVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;

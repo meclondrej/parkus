@@ -3,9 +3,9 @@ using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
-    public class LockableDoors
+    public static class LockableDoors
     {
-        public bool OnInteractingDoor(InteractingDoorEventArgs ev)
+        public static bool OnInteractingDoor(InteractingDoorEventArgs ev)
         {
             if (
                 ev.Player.CurrentItem == null

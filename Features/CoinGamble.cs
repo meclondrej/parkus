@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace parkus.Features
 {
-    public class CoinGamble
+    public static class CoinGamble
     {
         private static readonly System.Random rnd = new System.Random();
 
@@ -124,7 +124,7 @@ namespace parkus.Features
             ),
         };
 
-        public void OnFlippingCoin(FlippingCoinEventArgs ev)
+        public static void OnFlippingCoin(FlippingCoinEventArgs ev)
         {
             ushort luck = (ushort)rnd.Next(101);
             ev.Player.RemoveHeldItem();

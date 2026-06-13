@@ -3,9 +3,9 @@ using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
-    public class ConnectionStatusBroadcast
+    public static class ConnectionStatusBroadcast
     {
-        public void OnPreAuthenticating()
+        public static void OnPreAuthenticating()
         {
             foreach (Player player in Player.List)
                 player.Broadcast(
@@ -14,7 +14,7 @@ namespace parkus.Features
                 );
         }
 
-        public void OnPlayerVerified(VerifiedEventArgs ev)
+        public static void OnPlayerVerified(VerifiedEventArgs ev)
         {
             foreach (Player player in Player.List)
                 if (player.Id != ev.Player.Id)
@@ -27,7 +27,7 @@ namespace parkus.Features
                     );
         }
 
-        public void OnPlayerLeft(LeftEventArgs ev)
+        public static void OnPlayerLeft(LeftEventArgs ev)
         {
             foreach (Player player in Player.List)
                 if (player.Id != ev.Player.Id)

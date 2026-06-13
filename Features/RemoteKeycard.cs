@@ -6,7 +6,7 @@ using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
-    public class RemoteKeycard
+    public static class RemoteKeycard
     {
         public static bool HasKeycardPermission(Player player, KeycardPermissions perms)
         {
@@ -20,21 +20,21 @@ namespace parkus.Features
             );
         }
 
-        public void OnInteractingDoor(InteractingDoorEventArgs ev)
+        public static void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
             if (ev.IsAllowed || ev.Door.Base.ActiveLocks > 0 || ev.Player.IsScp)
                 return;
             ev.IsAllowed = HasKeycardPermission(ev.Player, ev.Door.KeycardPermissions);
         }
 
-        public void OnActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
+        public static void OnActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
         {
             if (ev.IsAllowed || ev.Player.IsScp)
                 return;
             ev.IsAllowed = HasKeycardPermission(ev.Player, KeycardPermissions.AlphaWarhead);
         }
 
-        public void OnUnlockingGenerator(UnlockingGeneratorEventArgs ev)
+        public static void OnUnlockingGenerator(UnlockingGeneratorEventArgs ev)
         {
             if (ev.IsAllowed || ev.Player.IsScp)
                 return;
@@ -44,7 +44,7 @@ namespace parkus.Features
             );
         }
 
-        public void OnInteractingLocker(InteractingLockerEventArgs ev)
+        public static void OnInteractingLocker(InteractingLockerEventArgs ev)
         {
             if (ev.IsAllowed || ev.InteractingChamber == null || ev.Player.IsScp)
                 return;

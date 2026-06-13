@@ -5,11 +5,11 @@ using PlayerRoles;
 
 namespace parkus.Features
 {
-    public class OverwatchJail
+    public static class OverwatchJail
     {
-        public HashSet<string> jailedIds = new HashSet<string>();
+        public static HashSet<string> jailedIds = new HashSet<string>();
 
-        public void OnChangingRole(ChangingRoleEventArgs ev)
+        public static void OnChangingRole(ChangingRoleEventArgs ev)
         {
             if (ev.NewRole == RoleTypeId.Overwatch) // jail
                 jailedIds.Add(ev.Player.UserId);
