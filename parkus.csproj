@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExMod.Exiled" Version="9.8.0" />
+        <PackageReference Include="ExMod.Exiled" Version="9.14.2" />
         <Reference Include="Assembly-CSharp">
             <HintPath>references/Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
