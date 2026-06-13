@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Exiled.Events.EventArgs.Player;
+using PlayerRoles;
 
 namespace parkus.Features
 {
@@ -9,12 +10,6 @@ namespace parkus.Features
 
         public static void OnPlayerDied(DiedEventArgs ev)
         {
-            if (!entries.ContainsKey(ev.Player.Id))
-                entries.Add(ev.Player.Id, 0);
-            ev.Player.Broadcast(
-                new Exiled.API.Features.Broadcast($"Killstreak: {entries[ev.Player.Id]}", 10)
-            );
-            entries[ev.Player.Id] = 0;
             if (ev.Attacker == null || ev.Player.Id == ev.Attacker.Id)
                 return;
             if (entries.ContainsKey(ev.Attacker.Id))
@@ -29,10 +24,25 @@ namespace parkus.Features
             );
         }
 
+        public static void OnChangingRole(ChangingRoleEventArgs ev)
+        {
+            if (
+                !entries.ContainsKey(ev.Player.Id)
+                || (
+                    ev.NewRole != RoleTypeId.Spectator
+                    && ev.Player.Role.Type != RoleTypeId.Spectator
+                )
+            )
+                return;
+            ev.Player.Broadcast(
+                new Exiled.API.Features.Broadcast($"Killstreak: {entries[ev.Player.Id]}", 10)
+            );
+            entries.Remove(ev.Player.Id);
+        }
+
         public static void OnPlayerLeft(LeftEventArgs ev)
         {
-            if (entries.ContainsKey(ev.Player.Id))
-                entries.Remove(ev.Player.Id);
+            entries.Remove(ev.Player.Id);
         }
 
         public static void OnRoundStarted()

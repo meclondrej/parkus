@@ -76,6 +76,7 @@ namespace parkus
         {
             OverwatchJail.OnChangingRole(ev);
             DefaultLoot.OnChangingRole(ev);
+            Killcounter.OnChangingRole(ev);
         }
 
         private static void OnFlippingCoin(FlippingCoinEventArgs ev)
