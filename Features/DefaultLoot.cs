@@ -8,15 +8,16 @@ namespace parkus.Features
     {
         private static readonly Random rnd = new Random();
 
-        private static readonly ItemType[] ClassDTable = {
-        ItemType.Coin,
-        ItemType.Medkit,
-        ItemType.Adrenaline,
-        ItemType.SCP500,
-        ItemType.KeycardJanitor,
-        ItemType.KeycardScientist,
-        ItemType.GunCOM15,
-    };
+        private static readonly ItemType[] ClassDTable =
+        {
+            ItemType.Coin,
+            ItemType.Medkit,
+            ItemType.Adrenaline,
+            ItemType.SCP500,
+            ItemType.KeycardJanitor,
+            ItemType.KeycardScientist,
+            ItemType.GunCOM15,
+        };
         private const ushort ClassDMaxItems = 2;
 
         public void OnChangingRole(ChangingRoleEventArgs ev)

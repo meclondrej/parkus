@@ -2,3 +2,4 @@ bin/
 obj/
 .vs/
 references/
+dotnet-tools.json

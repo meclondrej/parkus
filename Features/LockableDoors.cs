@@ -1,5 +1,5 @@
-using Exiled.Events.EventArgs.Player;
 using Exiled.API.Features.Doors;
+using Exiled.Events.EventArgs.Player;
 
 namespace parkus.Features
 {
@@ -7,14 +7,19 @@ namespace parkus.Features
     {
         public bool OnInteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (ev.Player.CurrentItem == null
-                    || ev.Player.CurrentItem.Type != ItemType.Coin
-                    || ev.Door.IsElevator
-                    || ev.Door.IsPartOfCheckpoint
-                    || ev.Door.IsLocked
-                    || (ev.Door is BreakableDoor breakableDoor && breakableDoor.IsDestroyed)
-                    || (!ev.Door.IsFullyOpen && !ev.Door.IsFullyClosed)
-                    || (!ev.IsAllowed && !RemoteKeycard.HasKeycardPermission(ev.Player, ev.Door.KeycardPermissions)))
+            if (
+                ev.Player.CurrentItem == null
+                || ev.Player.CurrentItem.Type != ItemType.Coin
+                || ev.Door.IsElevator
+                || ev.Door.IsPartOfCheckpoint
+                || ev.Door.IsLocked
+                || (ev.Door is BreakableDoor breakableDoor && breakableDoor.IsDestroyed)
+                || (!ev.Door.IsFullyOpen && !ev.Door.IsFullyClosed)
+                || (
+                    !ev.IsAllowed
+                    && !RemoteKeycard.HasKeycardPermission(ev.Player, ev.Door.KeycardPermissions)
+                )
+            )
                 return true;
             ev.IsAllowed = false;
             if (ev.Door.IsFullyOpen)

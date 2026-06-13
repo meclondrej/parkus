@@ -1,11 +1,11 @@
 using System;
+using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using Exiled.API.Features.Pickups;
 using Exiled.Events.EventArgs.Player;
-using Exiled.API.Features.Items;
-using UnityEngine;
-using Exiled.API.Enums;
 using PlayerRoles;
+using UnityEngine;
 
 namespace parkus.Features
 {
@@ -25,7 +25,8 @@ namespace parkus.Features
             public ushort luck_required;
         }
 
-        private static readonly ItemChance[] itemChances = {
+        private static readonly ItemChance[] itemChances =
+        {
             new ItemChance(ItemType.KeycardO5, 98),
             new ItemChance(ItemType.MicroHID, 96),
             new ItemChance(ItemType.ParticleDisruptor, 94),
@@ -52,53 +53,76 @@ namespace parkus.Features
             public ushort luck_required;
         }
 
-        private static readonly CoinEffect[] coinEffects = {
+        private static readonly CoinEffect[] coinEffects =
+        {
+            // ========== GOOD EFFECTS ==========
 
-        // ========== GOOD EFFECTS ==========
-
-        // gives the player a 300 HP boost
-        new CoinEffect(90, player => {
-            player.Heal(300, true);
-        }),
-
-        // gives the player an item
-        new CoinEffect(50, player => {
-            ushort luck = (ushort)rnd.Next(101);
-            foreach (ItemChance ic in itemChances)
-                if (luck >= ic.luck_required)
+            // gives the player a 300 HP boost
+            new CoinEffect(
+                90,
+                player =>
                 {
-                    Pickup.CreateAndSpawn(ic.item, player.Position, null);
-                    break;
+                    player.Heal(300, true);
                 }
-        }),
+            ),
+            // gives the player an item
+            new CoinEffect(
+                50,
+                player =>
+                {
+                    ushort luck = (ushort)rnd.Next(101);
+                    foreach (ItemChance ic in itemChances)
+                        if (luck >= ic.luck_required)
+                        {
+                            Pickup.CreateAndSpawn(ic.item, player.Position, null);
+                            break;
+                        }
+                }
+            ),
+            // ========== BAD EFFECTS ==========
 
-        // ========== BAD EFFECTS ==========
-
-        // spawns a grenade with a 3 second fuse
-        new CoinEffect(40, player => {
-            ExplosiveGrenade he = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
-            he.FuseTime = 3;
-            he.SpawnActive(player.Position + Vector3.up, player);
-            player.ShowHint("bacha na nohy!", 3);
-        }),
-
-        // flashes the player
-        new CoinEffect(20, player => {
-            player.EnableEffect(EffectType.Flashed, 10, true);
-        }),
-
-        // turns the player into SCP-3114
-        new CoinEffect(10, player => {
-            player.DropItems();
-            player.DisableAllEffects();
-            player.Role.Set(RoleTypeId.Scp3114, SpawnReason.ItemUsage, RoleSpawnFlags.AssignInventory);
-        }),
-
-        // kills the player
-        new CoinEffect(0, player => {
-            player.Kill("chcipnul na ligmu");
-        }),
-    };
+            // spawns a grenade with a 3 second fuse
+            new CoinEffect(
+                40,
+                player =>
+                {
+                    ExplosiveGrenade he = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
+                    he.FuseTime = 3;
+                    he.SpawnActive(player.Position + Vector3.up, player);
+                    player.ShowHint("bacha na nohy!", 3);
+                }
+            ),
+            // flashes the player
+            new CoinEffect(
+                20,
+                player =>
+                {
+                    player.EnableEffect(EffectType.Flashed, 10, true);
+                }
+            ),
+            // turns the player into SCP-3114
+            new CoinEffect(
+                10,
+                player =>
+                {
+                    player.DropItems();
+                    player.DisableAllEffects();
+                    player.Role.Set(
+                        RoleTypeId.Scp3114,
+                        SpawnReason.ItemUsage,
+                        RoleSpawnFlags.AssignInventory
+                    );
+                }
+            ),
+            // kills the player
+            new CoinEffect(
+                0,
+                player =>
+                {
+                    player.Kill("chcipnul na ligmu");
+                }
+            ),
+        };
 
         public void OnFlippingCoin(FlippingCoinEventArgs ev)
         {

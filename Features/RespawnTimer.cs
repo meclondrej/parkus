@@ -1,15 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Waves;
 using Exiled.Events.EventArgs.Player;
+using MEC;
 using PlayerRoles;
 using Respawning;
 using Respawning.Waves;
-using MEC;
-using Exiled.API.Enums;
 
 namespace parkus.Features
 {
@@ -68,7 +68,8 @@ namespace parkus.Features
             ev.Player.ShowHint(GenerateTimerText(), 1.0f);
         }
 
-        private static string GetWaveRespawnText<T>() where T : TimeBasedWave
+        private static string GetWaveRespawnText<T>()
+            where T : TimeBasedWave
         {
             if (!TimedWave.TryGetTimedWave<T>(out TimedWave wave))
                 return "--:--";
@@ -112,7 +113,8 @@ namespace parkus.Features
             return str.ToString();
         }
 
-        private const string TimerTextTemplate = "Další spawn jako: {nextrole}\n"
+        private const string TimerTextTemplate =
+            "Další spawn jako: {nextrole}\n"
             + "<color=#3333FF>NTF</color>: {ntftime}\n"
             + "<color=#3333FF>NTF</color> MINI: {ntfminitime}\n"
             + "<color=#33FF33>CHAOS</color>: {chaostime}\n"

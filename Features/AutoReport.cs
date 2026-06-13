@@ -33,22 +33,29 @@ namespace parkus.Features
                 return;
 
             // zombie suicide check
-            if (ev.TargetOldRole == RoleTypeId.Scp0492
-                    && (ev.Attacker == ev.Player
-                        || ev.Attacker == null))
+            if (
+                ev.TargetOldRole == RoleTypeId.Scp0492
+                && (ev.Attacker == ev.Player || ev.Attacker == null)
+            )
                 Report($"Hráč {ev.Player.DisplayNickname} se zabil jako SCP-049-2");
 
             // teamkill check
-            if (ev.Attacker != null
-                    && ev.Attacker != ev.Player
-                    && ev.TargetOldRole.GetSide() == ev.Attacker.Role.Side
-                    && IsSidePartOfGameplay(ev.Attacker.Role.Side))
-                Report($"Hráč {ev.Attacker.DisplayNickname} teamkillnul hráče {ev.Player.DisplayNickname}");
+            if (
+                ev.Attacker != null
+                && ev.Attacker != ev.Player
+                && ev.TargetOldRole.GetSide() == ev.Attacker.Role.Side
+                && IsSidePartOfGameplay(ev.Attacker.Role.Side)
+            )
+                Report(
+                    $"Hráč {ev.Attacker.DisplayNickname} teamkillnul hráče {ev.Player.DisplayNickname}"
+                );
 
             // mic recording perms check
-            if (ev.Attacker != null
-                    && ev.Attacker.Role.Type == RoleTypeId.Scp939
-                    && !ev.Player.AgreedToRecording)
+            if (
+                ev.Attacker != null
+                && ev.Attacker.Role.Type == RoleTypeId.Scp939
+                && !ev.Player.AgreedToRecording
+            )
                 Report($"Hráč {ev.Player.DisplayNickname} nemá povolené nahrávání mikrofonu");
         }
     }
