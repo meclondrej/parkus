@@ -1,4 +1,3 @@
-using System;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
