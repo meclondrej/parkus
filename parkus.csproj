@@ -14,5 +14,11 @@
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>references/UnityEngine.CoreModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+            <HintPath>references/UnityEngine.PhysicsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="Mirror">
+            <HintPath>references/Mirror.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>

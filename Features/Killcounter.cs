@@ -16,12 +16,7 @@ namespace parkus.Features
                 entries[ev.Attacker.Id]++;
             else
                 entries.Add(ev.Attacker.Id, 1);
-            ev.Attacker.Broadcast(
-                new Exiled.API.Features.Broadcast(
-                    $"Killstreak: {entries[ev.Attacker.Id]}\n+1 Kill",
-                    3
-                )
-            );
+            Messager.Send($"Killstreak: {entries[ev.Attacker.Id]}\n+1 Kill", ev.Attacker, 3000);
         }
 
         public static void OnChangingRole(ChangingRoleEventArgs ev)
@@ -34,9 +29,7 @@ namespace parkus.Features
                 )
             )
                 return;
-            ev.Player.Broadcast(
-                new Exiled.API.Features.Broadcast($"Killstreak: {entries[ev.Player.Id]}", 10)
-            );
+            Messager.Send($"Killstreak: {entries[ev.Player.Id]}", ev.Player, 10000);
             entries.Remove(ev.Player.Id);
         }
 

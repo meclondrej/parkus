@@ -69,6 +69,7 @@ namespace parkus
 
         private static void OnRestartingRound()
         {
+            Messager.OnRestartingRound();
             RespawnTimer.OnRestartingRound();
         }
 
@@ -82,6 +83,11 @@ namespace parkus
         private static void OnFlippingCoin(FlippingCoinEventArgs ev)
         {
             CoinGamble.OnFlippingCoin(ev);
+        }
+
+        private static void OnWaitingForPlayers()
+        {
+            Messager.OnWaitingForPlayers();
         }
 
         public static void RegisterEvents()
@@ -99,6 +105,7 @@ namespace parkus
             Exiled.Events.Handlers.Server.RestartingRound += OnRestartingRound;
             Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
+            Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
         }
 
         public static void UnregisterEvents()

@@ -7,34 +7,21 @@ namespace parkus.Features
     {
         public static void OnPreAuthenticating()
         {
-            foreach (Player player in Player.List)
-                player.Broadcast(
-                    new Exiled.API.Features.Broadcast("Hráč se připojuje...", 10),
-                    true
-                );
+            Messager.SendToAll("Hráč se připojuje...", 10000);
         }
 
         public static void OnPlayerVerified(VerifiedEventArgs ev)
         {
             foreach (Player player in Player.List)
                 if (player.Id != ev.Player.Id)
-                    player.Broadcast(
-                        new Exiled.API.Features.Broadcast(
-                            $"{ev.Player.Nickname} se připojil do hry.",
-                            10
-                        ),
-                        true
-                    );
+                    Messager.Send($"{ev.Player.Nickname} se připojil do hry.", player, 10000);
         }
 
         public static void OnPlayerLeft(LeftEventArgs ev)
         {
             foreach (Player player in Player.List)
                 if (player.Id != ev.Player.Id)
-                    player.Broadcast(
-                        new Exiled.API.Features.Broadcast($"{ev.Player.Nickname} opustil hru.", 10),
-                        true
-                    );
+                    Messager.Send($"{ev.Player.Nickname} opustil hru.", player, 10000);
         }
     }
 }
