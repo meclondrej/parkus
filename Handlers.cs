@@ -60,6 +60,7 @@ namespace parkus
         {
             Killcounter.OnRoundStarted();
             RespawnTimer.OnRoundStarted();
+            Scp3114Spawner.OnRoundStarted();
         }
 
         private static void OnRoundEnded(RoundEndedEventArgs ev)
