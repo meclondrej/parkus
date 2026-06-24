@@ -6,6 +6,7 @@ using CommandSystem;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Permissions.Extensions;
 using PlayerRoles;
 
 namespace parkus.Features
@@ -92,7 +93,7 @@ namespace parkus.Features
             out string response
         )
         {
-            if (!sender.CheckPermission(PlayerPermissions.ForceclassWithoutRestrictions))
+            if (!sender.CheckPermission("parkus.overwatchjail"))
             {
                 response = "nedostatecne permy";
                 return false;
