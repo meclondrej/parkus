@@ -85,9 +85,9 @@ namespace parkus.Features
 
         private static string GetWarheadText()
         {
-            if (Warhead.IsLocked)
-                return "zamčená";
             StringBuilder str = new StringBuilder();
+            if (Warhead.IsLocked)
+                str.Append("zamčená ");
             WarheadStatus warheadStatus = Warhead.Status;
             int time = 0;
             switch (warheadStatus)
