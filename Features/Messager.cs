@@ -129,16 +129,16 @@ namespace parkus.Features
                 }
 
                 // skip this loop if no update is needed
-                if (
-                    !time_to_next_update.HasValue
-                    || time_to_next_update.Value > MAXIMUM_REFRESH_TIME_MS
-                )
+                if (!time_to_next_update.HasValue)
                 {
                     yield return Timing.WaitForSeconds(MAXIMUM_REFRESH_TIME_SEC);
                     continue;
                 }
 
-                float secs = (float)time_to_next_update.Value / 1000;
+                float secs =
+                    time_to_next_update.Value > MAXIMUM_REFRESH_TIME_MS
+                        ? MAXIMUM_REFRESH_TIME_SEC
+                        : (float)time_to_next_update.Value / 1000;
                 yield return Timing.WaitForSeconds(secs);
 
                 // remove all expired messages
